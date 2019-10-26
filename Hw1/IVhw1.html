@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		.axisWhite line{
+  			stroke: white;
+		}
+
+		.axisWhite path{
+  			stroke: white;
+		}
+
+		.axisWhite text{
+  			fill: white;
+		} 
+	</style>
+	<meta name="viewport" content="width=device-width">
+  	<title>Information Visualizaion Homework 1</title>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+	<script>
+	//Newborns in Taiwan sorted by year
+	var maleData = [218659, 202933, 213155, 218163, 212399, 214321,
+                	207663, 196712, 190976, 177006, 158554, 162935,
+                	177856, 162952, 176378, 168145, 168306, 169360,
+                	168764, 169482, 168961, 169422, 140063, 148456,
+                	160529, 134310, 129141, 119218, 114239, 107972,
+                	107214, 106422, 102700, 100155,  86885, 102947,
+                	121462, 101295, 109411, 111138];
+
+	var femaleData = [205416, 190700, 198482, 203557, 199494, 200187,
+                  	  194242, 184317, 177836, 165953, 147774, 150347,
+                  	  164371, 150032, 159928, 152239, 153099, 156634,
+                  	  155004, 157065, 155356, 155558, 128818, 135617,
+                  	  146671, 123556, 117617, 108229, 103141,  98951,
+                  	   97812,  96953,  93673,  92310,  79745,  95439,
+                  	  113113,  93955, 102323, 102575];
+
+    // Set svg
+	var svg = d3.select("body")
+            	.append("svg")
+            	.attr("width", 1200)
+            	.attr("height", 610);
+    svg.append("rect")
+       .attr("width", "100%")
+       .attr("height", "100%")
+       .style("fill", "black");
+
+	var xScale = d3.scaleLinear()
+               	   .domain([64, 105])
+               	   .range([0, 1100]);
+
+	var yScale = d3.scaleLinear()
+               	   .domain([0, 240000])
+               	   .range([500, 0]);
+
+	var xAxis = d3.axisBottom()
+                  .scale(xScale)
+                  .ticks(39);
+
+	var yAxis = d3.axisLeft()
+                  .scale(yScale)
+                  .ticks(25);
+
+    svg.append("rect")
+       .attr("x", 1070)
+   	   .attr("y", 70)
+   	   .attr("width", 30)
+       .attr("height", 10)
+   	   .style("fill", "grey");
+   	svg.append("text")
+       .attr("x", 1010 )
+       .attr("y",  80 )
+       .style("fill", "white")
+       .text("Male");
+	svg.append("rect")
+       .attr("x", 1070)
+   	   .attr("y", 90)
+   	   .attr("width", 30)
+       .attr("height", 10)
+   	   .style("fill", "white");
+   	svg.append("text")
+       .attr("x", 1010 )
+       .attr("y",  100 )
+       .style("fill", "white")
+       .text("Female");
+
+   	// Draw male data
+	svg.selectAll("rect.data")
+       .data(maleData)
+       .enter()
+       .append("rect")
+       .attr("x", function(d, i){
+      		return xScale(i + 65) + 72;
+   		})
+   	   .attr("y", function(d){
+      		return 50 + yScale(d);
+   		})
+   	   .attr("width", 10)
+       .attr("height", function(d){
+     		return 500  - yScale(d);
+   		})
+   	   .style("fill", "gray");
+   	// Draw female data
+	svg.selectAll("rect.data")
+   	   .data(femaleData)
+   	   .enter()
+   	   .append("rect")
+   	   .attr("x", function(d, i){
+      		return xScale(i + 65) + 78;
+   		})
+   	   .attr("y", function(d){
+      		return 50 + yScale(d);
+   		})
+   	   .attr("width", 10)
+   	   .attr("height", function(d){
+      		return 500 - yScale(d);
+   		})
+   	   .style("fill", "white");
+
+   	// text label for title
+	svg.append("text")
+       .attr("x", 630 )
+       .attr("y",  30 )
+       .style("text-anchor", "middle")
+       .style("fill", "white")
+       .text("Taiwan births by gender");
+	svg.append("g")
+   	   .attr("class", "axisWhite")
+   	   .attr("transform", "translate(" + 80 + "," + 550 + ")")
+   	   .call(xAxis);
+	// text label for the x axis
+   	svg.append("text")
+        .attr("x", 630 )
+        .attr("y",  590 )
+        .style("text-anchor", "middle")
+        .style("fill", "white")
+        .text("Year");
+	svg.append("g")
+   	   .attr("class", "axisWhite")
+   	   .attr("transform", "translate(" + 80 + "," + 50 + ")")
+   	   .call(yAxis);
+   	// text label for the y axis
+   	svg.append("text")
+        .attr("x", -290 )
+        .attr("y",  20 )
+        .attr("transform", function(d) {
+            	return "rotate(-90)"
+            })
+        .style("text-anchor", "middle")
+        .style("fill", "white")
+        .text("Births");
+    // Source
+    svg.append("text")
+       .attr("x", 930 )
+       .attr("y",  590 )
+       .style("fill", "white")
+       .text("(Source : http://data.gov.tw/node/6961)");
+   	   
+	</script>
+</body>
+</html>
